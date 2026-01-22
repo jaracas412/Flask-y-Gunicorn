@@ -1,5 +1,5 @@
 # Práctica de Despliegue de Aplicaciones  
-## Flask + Gunicorn + Nginx + systemd  
+## Flask + Gunicorn
 **2º DAW**
 
 ---
@@ -7,13 +7,6 @@
 ## 📌 Introducción
 
 En esta práctica se ha realizado el despliegue completo de una aplicación web desarrollada con **Flask**, utilizando un entorno de producción basado en **Gunicorn** como servidor WSGI y **Nginx** como proxy inverso.  
-
-El objetivo principal de la práctica es comprender y aplicar un **proceso realista de despliegue**, similar al que se utiliza en entornos profesionales, haciendo uso de herramientas como **Pipenv**, **systemd** y **Vagrant** sobre un sistema **Debian Bullseye**.
-
-La práctica se divide en dos partes:
-
-1. **Despliegue de una aplicación Flask sencilla (PoC)**  
-2. **Tarea de ampliación**, repitiendo todo el proceso con una aplicación real obtenida desde un repositorio de GitHub
 
 ## 🔹 1. Instalación de prerrequisitos
 
@@ -42,11 +35,13 @@ Instalación de python-dotenv : Este paquete se utiliza para cargar variables de
 
 pip3 install python-dotenv
 pip3 --version
+
 <img width="467" height="48" alt="requisito pip3" src="https://github.com/user-attachments/assets/7c485401-fa62-4e65-8688-fae5754d6c4a" />
 
 
 
 gunicorn --version
+
 <img width="467" height="48" alt="requisito gunicorn" src="https://github.com/user-attachments/assets/ce0067c0-d322-40d3-b126-f69cf2afc186" />
 
 
@@ -84,9 +79,12 @@ pipenv shell
 pipenv install flask gunicorn
 
 
+
 <img width="922" height="291" alt="5 Creación del entorno virtual" src="https://github.com/user-attachments/assets/d43711c7-e8f9-43e0-85c0-538551489a4c" />
 
+
 Instalación de dependencias del entorno virtual 
+
 
 <img width="663" height="291" alt="6 Instalación dependencias en entorno virutal" src="https://github.com/user-attachments/assets/7817f17b-aac3-461b-bcd6-30fbbb2e5b44" />
 
@@ -95,26 +93,14 @@ Instalación de dependencias del entorno virtual
 Se creó una aplicación Flask mínima como prueba de concepto.
 
 
-Archivo application.py
+Archivo application.p
 
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return '<h1>App desplegada</h1>'
 
 <img width="569" height="195" alt="7 Contenido de application py " src="https://github.com/user-attachments/assets/afb4fcf6-aa92-4198-8c94-0e6d3e8273d6" />
 
     
 Archivo wsgi.py
 
-
-from application import app
-
-if __name__ == '__main__':
-    app.run(debug=False)
 
 <img width="562" height="111" alt="8 Contenido de wsgi py " src="https://github.com/user-attachments/assets/0d8f113d-6859-4365-af59-56f0df7d4e6f" />
 
@@ -126,6 +112,7 @@ En primer lugar deberemos de poner el puerto 5000 tanto en guest como en el host
 
 <img width="509" height="27" alt="10 adicion de redireccion de puertos para pruebas " src="https://github.com/user-attachments/assets/b6c9044d-afcf-4669-a347-aabcd8070402" />
 
+
 Servidor de desarrollo de Flask
 
 
@@ -133,7 +120,7 @@ flask run --host 0.0.0.0
 
 <img width="856" height="162" alt="9 Prueba manual " src="https://github.com/user-attachments/assets/8bd04e85-393e-483d-a142-e0fc2b5f964c" />
 
-<img width="314" height="132" alt="11 App Desplegada Flask" src="https://github.com/user-attachments/assets/f90043ac-6c6b-4541-85a0-58a5a44b62ab" />
+<img width="314" height="132" alt="11 legada Flask" src="https://github.com/user-attachments/assets/f90043ac-6c6b-4541-85a0-58a5a44b62ab" />
 
 
 Prueba con Gunicorn
@@ -143,10 +130,6 @@ gunicorn --workers 4 --bind 0.0.0.0:5000 wsgi:app
 
 
 <img width="653" height="147" alt="12 prueba gunicorn" src="https://github.com/user-attachments/assets/7949fc42-73cc-424d-a7b7-b44d48425caa" />
-
-
-<img width="327" height="118" alt="13 Prueba Gunicorn" src="https://github.com/user-attachments/assets/915c8a02-3652-4875-abae-34b9cca7891a" />
-
 
 
 🔹 7. Creación del servicio systemd
@@ -163,6 +146,7 @@ sudo systemctl start flask_app
 
 
 Comprobamos el estado de nuestra flask_app
+
 <img width="762" height="170" alt="17 estado app flask" src="https://github.com/user-attachments/assets/45eea63e-f520-4351-96f6-8c7ff140c5e4" />
 
 
@@ -179,9 +163,11 @@ Archivo de configuración:
 Se activó el sitio y se reinició Nginx:
 
 
+
 sudo ln -s /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
+
 
 <img width="866" height="111" alt="19 Creacion enlace simbolico y verificacion estado nginc" src="https://github.com/user-attachments/assets/cc7ed1fc-073f-4776-a5d0-de568568f0e8" />
 
@@ -191,7 +177,9 @@ sudo systemctl restart nginx
 🔹 9. Configuración del archivo hosts
 Para poder acceder mediante un nombre de dominio, se modificó el archivo hosts del sistema anfitrión.
 
+
 192.168.33.10 app.izv www.app.izv
+
 
 🔹 10. Comprobación final
 Se accedió desde el navegador a:
@@ -199,6 +187,8 @@ Se accedió desde el navegador a:
 
 http://app.izv
 Mostrando correctamente la aplicación desplegada.
+
+
 <img width="407" height="112" alt="20 app izv " src="https://github.com/user-attachments/assets/667c90dd-3f49-4c2a-8d91-9b55c3d52f01" />
 
 
@@ -210,30 +200,45 @@ Como tarea de ampliación se repitió todo el proceso completo con una aplicaci�
 Durante esta parte se realizaron los mismos pasos:
 
 Clonado del repositorio y permisos
+
+
 <img width="838" height="179" alt="21 TA clone y permisos" src="https://github.com/user-attachments/assets/4b86e7d7-ff71-41eb-8e9d-c70f732d56a4" />
 
 Modificación del archivo .env
+
+
 <img width="558" height="83" alt="22 TA archivo  env " src="https://github.com/user-attachments/assets/7b5903d5-8071-490d-8aec-59ab25e0468d" />
 
 
 Creación del entorno virtual
+
+
 <img width="1169" height="218" alt="23 TA Creacion del entorno virtual" src="https://github.com/user-attachments/assets/19e05918-2ea7-4376-9254-118f22cadcdf" />
 
 
 Instalación de dependencias desde requirements.txt
+
+
 <img width="1040" height="145" alt="24 Instalación de dependencias del proyecto" src="https://github.com/user-attachments/assets/df75c460-4eb8-46c8-9f8e-5e8074223ec2" />
 
 Instalación de dependencias de Guicorn
 
+
 <img width="962" height="217" alt="25 Instalacion de dependencias de gunicorn" src="https://github.com/user-attachments/assets/035ca8f0-83e3-4037-bc31-e849afa3ac70" />
 
 Pruebas con Flask y Gunicorn
+
+
 <img width="1117" height="431" alt="25 1 Prueba flask y gunicorn" src="https://github.com/user-attachments/assets/daa4a6e3-f5ea-4ba4-8b6d-761bb56f2de5" />
 
 Prueba flask 
+
+
 <img width="1238" height="575" alt="26 TA prueba flask" src="https://github.com/user-attachments/assets/f2b28163-27f6-43ea-8621-99213a623b7c" />
 
 Prueba Guicorn
+
+
 <img width="1183" height="567" alt="27 TA Prueba gunicorn" src="https://github.com/user-attachments/assets/3d77dc50-4441-48b3-b110-e1618d1204ad" />
 
 
